@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+	<xs:element name="PassengerCountingService.GetAllDataResponse" type="PassengerCountingService.GetAllDataResponseStructure"/>
+
+	<!--==== Structure Definitions ====-->
+	<xs:complexType name="PassengerCountingService.AllDataStructure">
+		<xs:sequence>
+			<xs:element name="VehicleRef" type="APC.NMTOKEN"/>
+			<xs:element name="TimeStamp" type="APC.dateTime"/>
+			<xs:element name="CountingData" type="DoorInformationStructure" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="GnssData" type="GNSSLocationService.DataStructure"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PassengerCountingService.GetAllDataResponseStructure">
+		<xs:annotation>
+			<xs:documentation>Passenger counters and related data of queried doors</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="AllData" type="PassengerCountingService.AllDataStructure"/>
+			<xs:element name="OperationErrorMessage" type="APC.string"/>
+		</xs:choice>
+	</xs:complexType>	
+	<xs:complexType name="DoorInformationStructure">
+		<xs:sequence>
+			<xs:element name="DoorID" type="APC.NMTOKEN"/>
+			<xs:element name="Count" type="DoorCountingStructure" maxOccurs="unbounded"/>
+			<xs:element name="State" type="DoorStateStructure" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DoorStateStructure">
+		<xs:sequence>
+			<xs:element name="OpenState" type="DoorOpenStateStructure"/>
+			<xs:element name="OperationState" type="DoorOperationStateStructure" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DoorCountingStructure">
+		<xs:sequence>
+			<xs:element name="ObjectClass" type="DoorCountingObjectClassEnumeration"/>
+			<xs:element name="In" type="APC.int"/>
+			<xs:element name="Out" type="APC.int"/>
+			<xs:element name="CountQuality" type="DoorCountingQualityEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>	
+		<xs:complexType name="DoorOpenStateStructure">
+		<xs:sequence>
+			<xs:element name="Value" type="DoorOpenStateEnumeration"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DoorOperationStateStructure">
+		<xs:sequence>
+			<xs:element name="Value" type="DoorOperationStateEnumeration"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<xs:complexType name="GNSSLocationService.DataStructure">
+		<xs:sequence>
+			<xs:element name="latitude" type="GNSSCoordinateStructure"/>
+			<xs:element name="longitude" type="GNSSCoordinateStructure"/>
+			<xs:element name="altitude" type="APC.double" minOccurs="0"/>
+			<xs:element name="time" type="APC.time" minOccurs="0"/>
+			<xs:element name="date" type="APC.date" minOccurs="0"/>
+			<xs:element name="SpeedOverGround" type="APC.double" minOccurs="0"/>
+			<xs:element name="SignalQuality" type="GNSSQualityEnumeration" minOccurs="0"/>
+			<xs:element name="NumberOfSatellites" type="APC.int" minOccurs="0"/>
+			<xs:element name="HoriziontalDilutionOfPrecision" type="APC.double" minOccurs="0"/>
+			<xs:element name="VerticalDilutionOfPrecision" type="APC.double" minOccurs="0"/>
+			<xs:element name="TrackDegreeTrue" type="APC.double" minOccurs="0"/>
+			<xs:element name="TrackDegreeMagnetic" type="APC.double" minOccurs="0"/>
+			<xs:element name="GNSSType" type="GNSSTypeEnumeration"/>
+			<xs:element name="GNSSCoordinateSystem" type="GNSSCoordinateSystemEnumeration" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Information on the CoordinateSystem of the GNSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GNSSCoordinateStructure">
+		<xs:annotation>
+			<xs:documentation>Structure for describing a GNSS-Point</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Degree" type="APC.double"/>
+			<xs:element name="Direction" type="APC.string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--==== APC-Types ====-->
+	<xs:complexType name="APC.boolean">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:boolean"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="APC.dateTime">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:dateTime"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="APC.time">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:time"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>	
+	<xs:complexType name="APC.int">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:int"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="APC.NMTOKEN">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:NMTOKEN"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>	
+	<xs:complexType name="APC.string">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:string"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>		
+	<xs:complexType name="APC.date">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:date"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="APC.double">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:double"/>
+			<xs:element name="ErrorCode" type="ErrorCodeEnumeration" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>	
+	<!--==== Definition of Enumerations-->
+	<xs:simpleType name="ErrorCodeEnumeration">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DataEstimated"/>
+			<xs:enumeration value="FaultData"/>
+			<xs:enumeration value="NoScheduleDataAvailable"/>
+			<xs:enumeration value="DeviceMissing"/>
+			<xs:enumeration value="NoServiceResponse"/>
+			<xs:enumeration value="ImportantDataNotAvailable"/>
+			<xs:enumeration value="DataNotValid"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DoorCountingObjectClassEnumeration">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Adult"/>
+			<xs:enumeration value="Child"/>
+			<xs:enumeration value="Bike"/>
+			<xs:enumeration value="WheelChair"/>
+			<xs:enumeration value="Pram"/>
+			<xs:enumeration value="Unidentified"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="DoorCountingQualityEnumeration">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Defect"/>
+			<xs:enumeration value="Regular"/>
+			<xs:enumeration value="Sabotage"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="DoorOpenStateEnumeration">
+		<xs:annotation>
+			<xs:documentation>Information on the state of the doors in a vehicle</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DoorsOpen"/>
+			<xs:enumeration value="AllDoorsClosed"/>
+			<xs:enumeration value="SingleDoorOpen"/>
+			<xs:enumeration value="SingleDoorClosed"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="DoorOperationStateEnumeration">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Locked"/>
+			<xs:enumeration value="Normal"/>
+			<xs:enumeration value="EmergencyRelease"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="GNSSQualityEnumeration">
+		<xs:annotation>
+			<xs:documentation>Information on the GNSS-Quality</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="dGPS"/>
+			<xs:enumeration value="Estimated"/>
+			<xs:enumeration value="GPS"/>
+			<xs:enumeration value="NotValid"/>
+			<xs:enumeration value="Unknown"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GNSSTypeEnumeration">
+		<xs:annotation>
+			<xs:documentation>Information on the type of GNSS</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GPS"/>
+			<xs:enumeration value="Glonass"/>
+			<xs:enumeration value="Galileo"/>
+			<xs:enumeration value="Beidou"/>
+			<xs:enumeration value="IRNSS"/>
+			<xs:enumeration value="other"/>
+			<xs:enumeration value="DeadReckoning"/>
+			<xs:enumeration value="MixedGNSSTypes"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="GNSSCoordinateSystemEnumeration">
+		<xs:annotation>
+			<xs:documentation>Information on the GNSS-Coordinate-System</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CH1903"/>
+			<xs:enumeration value="ETSR89"/>
+			<xs:enumeration value="IERS"/>
+			<xs:enumeration value="NAD27"/>
+			<xs:enumeration value="NAD83"/>
+			<xs:enumeration value="WGS84"/>
+			<xs:enumeration value="WGS72"/>
+			<xs:enumeration value="SGS85"/>
+			<xs:enumeration value="P90"/>
+		</xs:restriction>
+	</xs:simpleType>	
+</xs:schema>
