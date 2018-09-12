@@ -11,3 +11,6 @@ The data model consists of the following main components:
 * Vehicle Data
 
 The proposed model covers vehicle tracking data on the basis of GNSS. During operations, tracking data will be recorded during the whole trip within short intervals (every 10 seconds). APC data, mainly boardings and alightings, is recorded at every stop of a trip. Therefore a GNSS location will not come together with an APC record in any case, but an APC record will always be assigned to a location.
+
+## Credits
+The data model is inspired by the German [VDV-301 standard](https://www.vdv.de/ip-kom-oev.aspx) and was changed for the purpose of standalone and IoT use cases.
